@@ -31,6 +31,7 @@ langDict = (
     "th", "Thai","tl", "Filipino","tr", "Turkish","uk", "Ukrainian","ur", "Urdu","vi", "Vietnamese","zh-CN", "Chinese (Simplified)",
     "zh-TW", "Chinese (Traditional)"
 )
+
 #This function allows the AI to speak whatever text it is given
 def speak(audio):
     engine.say(audio)
