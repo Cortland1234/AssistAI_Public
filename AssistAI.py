@@ -34,7 +34,7 @@ langDict = (
 #This function allows the AI to speak whatever text it is given
 def speak(audio):
     engine.say(audio)
-    print("Courtney: " + audio)
+    print("ChatBot: " + audio)
     engine.runAndWait()
 
 
@@ -63,14 +63,14 @@ def timeGreeting():
     now = datetime.datetime.now()
     time12 = now.strftime("%I:%M %p").lstrip("0")
 
-    playsound("C:\\Users\\cortl\\PycharmProjects\\AssistAI\\sounds\\sheikah.mp3")
+    playsound("on_sound.mp3")
     if time >= 0 and time <= 12:
         speak(f"Good morning! The time is {time12}")
     elif time > 12 and time < 18:
         speak(f"Good afternoon! The time is {time12}")
     else:
         speak(f"Good evening! The time is {time12}")
-    speak("I am Courtney, your virtual assistant. Call on me for help.")
+    speak("I am ChatBot, your virtual assistant. Call on me for help.")
 
 #converts kelvin to fahrenheit
 def tempConversion(kelvin):
@@ -229,9 +229,6 @@ def executeTask():
             else:
                 getWeather("Las Vegas")
 
-        elif "job" in query:
-            speak("All options are cool.")
-
         elif "time" in query:
             now = datetime.datetime.now()
             time12 = now.strftime("%I:%M %p").lstrip("0")
@@ -251,7 +248,7 @@ def executeTask():
 
         elif "turn off" in query:
             speak("I'm glad I could help. Have a good rest of your day. Goodbye")
-            playsound("C:\\Users\\cortl\\PycharmProjects\\AssistAI\\sounds\\sheikah_off.mp3")
+            playsound("off_sound.mp3")
             sys.exit()
 
         time.sleep(2)
@@ -261,9 +258,9 @@ if __name__ == "__main__":
     timeGreeting()
     while True:
         query = command().lower()
-        if "courtney" in query:
+        if "chatbot" in query:
             executeTask()
         elif "turn off" in query:
             speak("I'm glad I could help. Have a good rest of your day. Goodbye")
-            playsound("C:\\Users\\cortl\\PycharmProjects\\AssistAI\\sounds\\sheikah_off.mp3")
+            playsound("off_sound.mp3")
             sys.exit()
