@@ -54,6 +54,6 @@ Once activated, pick from one of the following commands:
 
 -"sleep" causes ChatBot to sleep. To activate, say its name again
 
--"no" in response to it asking if you need anything, causes ChatBot to enter sleep mode
+-"no thanks" in response to it asking if you need anything, causes ChatBot to enter sleep mode
 
 -"turn off" closes ChatBot
