@@ -243,7 +243,7 @@ def executeTask():
             speak("Entering sleep mode. Call me again for help")
             break
 
-        elif "no" in query:
+        elif "no thanks" in query:
             speak("Understood.")
             break
 
