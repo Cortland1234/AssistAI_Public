@@ -10,4 +10,10 @@ List of features:
 -Can tell you the news  
 -Can tell you jokes, the mood, and its identity  
 -Can tell you the weather of any city  
--Translates in real time via voice prompts  
+-Translates in real time via voice prompts      
+
+# Installation  
+-To install required plugins, navigate to the directory on a command line and type "pip install -r requirements.txt"    
+-Next, type "python AssistAI.py" into the command line  
+
+This should allow you to run the program!
