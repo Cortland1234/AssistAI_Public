@@ -13,7 +13,7 @@ List of features:
 -Translates in real time via voice prompts      
 
 # Installation  
--To install required plugins, navigate to the directory on a command line and type "pip install -r requirements.txt"    
+-To install required plugins, navigate to the directory on a command line (ex. "cd {FILE PATH}) and type "pip install -r requirements.txt"    
 -Next, type "python AssistAI.py" into the command line  
 
 This should allow you to run the program!  
@@ -54,6 +54,6 @@ Once activated, pick from one of the following commands:
 
 -"sleep" causes ChatBot to sleep. To activate, say its name again
 
--"no" in response to it asking if you need anything, causes ChatBot to enter sleep mode
+-"no thanks" in response to it asking if you need anything, causes ChatBot to enter sleep mode
 
 -"turn off" closes ChatBot
