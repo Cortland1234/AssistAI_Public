@@ -79,16 +79,16 @@ def tempConversion(kelvin):
     far = cel * (9/5) + 32
     return far
 
-#gets 3 current news stories
+#gets 5 current news stories from the US
 def getNews():
-    url = "http://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=34f4da56f55c4dd2ac5ebddc13d2c33d"
+    url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=34f4da56f55c4dd2ac5ebddc13d2c33d'
 
     mainPage = requests.get(url).json()
 
     articles = mainPage["articles"]
 
     head = []
-    day = ["first", "second", "third"]
+    day = ["first", "second", "third", "fourth", "five"]
     for r in articles:
         head.append(r["title"])
     for i in range (len(day)):
