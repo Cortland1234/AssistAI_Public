@@ -14,7 +14,11 @@ import random
 from gtts import gTTS
 from googletrans import Translator
 from playsound import playsound
+import openai
 
+import config #this gets the API key
+
+openai.api_key = config.api_key
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
@@ -32,12 +36,23 @@ langDict = (
     "zh-TW", "Chinese (Traditional)"
 )
 
+#function that calls for dynamic responses via openAI
+def gpt_response(query):
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=query,
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+    return response.choices[0].text.strip()
+
 #This function allows the AI to speak whatever text it is given
 def speak(audio):
     engine.say(audio)
     print("ChatBot: " + audio)
     engine.runAndWait()
-
 
 #this function handles the voice recognition and detection. converts voice to text
 def command():
@@ -54,8 +69,7 @@ def command():
         print(f"You said: {query}")
 
     except Exception as error:
-        print("input undetected")
-        return "none"
+        return "input undetected"
     return query
 
 #this function handles the time of day and the associated greeting
@@ -169,6 +183,18 @@ def executeTask():
             filePath = "C:\\WINDOWS\\system32\\notepad.exe"
             os.startfile(filePath)
             speak("Opened Notepad")
+
+        elif "dynamic chat" in query: #this causes AssistAI to enter GPT chat mode, which allows user to ask chatGPT anything
+            speak("Starting Dynamic Chat...")
+            while True:
+                time.sleep(2)
+                speak("What would you like to ask?")
+                question = command().lower()
+                if "turn off" in question:
+                    break
+                elif question != "input undetected":
+                    response = gpt_response(question)
+                    speak(response)
 
         elif "open steam" in query:
             filePath = "C:\\Program Files (x86)\\Steam\\steam.exe"
