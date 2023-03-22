@@ -196,11 +196,6 @@ def executeTask():
                     response = gpt_response(question)
                     speak(response)
 
-        elif "open steam" in query:
-            filePath = "C:\\Program Files (x86)\\Steam\\steam.exe"
-            os.startfile(filePath)
-            speak("Opened Steam")
-
         elif "command prompt" in query:
             speak("Opening command prompt")
             os.system("start cmd")
