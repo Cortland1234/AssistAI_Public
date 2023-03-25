@@ -2,6 +2,7 @@
 This is a side project I've been working on. It's a voice activated virtual assistant AI, with a notable real-time translation feature.
 
 List of features:  
+-Capable of answering any query with a dynamic chat mode  
 -Opens various apps like command prompt, notepad, and steam  
 -Tells you your IP address when prompted  
 -Capable of using google and wikipedia to get information  
