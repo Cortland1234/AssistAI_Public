@@ -22,6 +22,10 @@ This should allow you to run the program!
 To activate the bot, simply say "Chatbot"  
 
 Once activated, pick from one of the following commands:  
+-"dynamic chat" engages the pretrained AI model for more advanced queries. ChatBot will then ask you what you want to ask it ( and you can ask it anyhthing you want).  
+
+-"translate" engages the translator, and the bot will then ask you what you want translated and into what language.  
+
 -"notepad" opens notepad  
 
 -"open steam" opens steam (if installed)  
