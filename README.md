@@ -54,8 +54,6 @@ Once activated, pick from one of the following commands:
 
 -"time" outputs the time  
 
--"translate" causes ChatBot to ask what you want translated. Whatever you say next will be what is translated. Once you stop talking, it will ask for the language you want the statement translated into  
-
 -"sleep" causes ChatBot to sleep. To activate, say its name again
 
 -"no thanks" in response to it asking if you need anything, causes ChatBot to enter sleep mode
