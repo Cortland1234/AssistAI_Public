@@ -2,6 +2,7 @@
 This is a side project I've been working on. It's a voice activated virtual assistant AI, with a notable real-time translation feature.
 
 List of features:  
+-Capable of answering any query with a dynamic chat mode  
 -Opens various apps like command prompt, notepad, and steam  
 -Tells you your IP address when prompted  
 -Capable of using google and wikipedia to get information  
@@ -22,6 +23,10 @@ This should allow you to run the program!
 To activate the bot, simply say "Chatbot"  
 
 Once activated, pick from one of the following commands:  
+-"dynamic chat" engages the pretrained AI model for more advanced queries. ChatBot will then ask you what you want to ask it ( and you can ask it anyhthing you want).  
+
+-"translate" engages the translator, and the bot will then ask you what you want translated and into what language.  
+
 -"notepad" opens notepad  
 
 -"open steam" opens steam (if installed)  
@@ -49,8 +54,6 @@ Once activated, pick from one of the following commands:
 -"weather" just saying this will cause ChatBot to output the default city's weather (Las Vegas). For specfic areas, say "weather in {CITY NAME}" 
 
 -"time" outputs the time  
-
--"translate" causes ChatBot to ask what you want translated. Whatever you say next will be what is translated. Once you stop talking, it will ask for the language you want the statement translated into  
 
 -"sleep" causes ChatBot to sleep. To activate, say its name again
 
