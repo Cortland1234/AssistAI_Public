@@ -27,10 +27,6 @@ Once activated, pick from one of the following commands:
 
 -"translate" engages the translator, and the bot will then ask you what you want translated and into what language.  
 
--"notepad" opens notepad  
-
--"open steam" opens steam (if installed)  
-
 -"command promopt" opens cmd prompt  
 
 -"ip address" outputs your IP  
