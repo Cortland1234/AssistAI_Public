@@ -191,7 +191,8 @@ def executeTask():
                 speak("What would you like to ask?")
                 question = command().lower()
                 if "turn off" in question:
-                    break
+                    playsound("off_sound.mp3")
+                    sys.exit()
                 elif question != "input undetected":
                     response = gpt_response(question)
                     speak(response)
