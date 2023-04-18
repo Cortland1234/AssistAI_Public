@@ -66,7 +66,6 @@ def command():
     try:
         print("Voice Detected...")
         query = recog.recognize_google(audio, language= 'en-us')
-        print(f"You said: {query}")
 
     except Exception as error:
         return "input undetected"
