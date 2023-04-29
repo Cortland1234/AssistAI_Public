@@ -4,7 +4,6 @@ import datetime
 import os
 import requests
 from requests import get
-import wikipedia
 import webbrowser
 import pywhatkit as kit
 import pyjokes
@@ -14,6 +13,8 @@ import random
 from gtts import gTTS
 from googletrans import Translator
 from playsound import playsound
+import tkinter as tk
+from tkinter import *
 import openai
 
 import config #this gets the API key
@@ -50,8 +51,9 @@ def gpt_response(query):
 
 #This function allows the AI to speak whatever text it is given
 def speak(audio):
+    chatBox.insert(END, "\n\n-> AssistAI:  " + audio)
+    chatBox.see("end")
     engine.say(audio)
-    print("ChatBot: " + audio)
     engine.runAndWait()
 
 #this function handles the voice recognition and detection. converts voice to text
@@ -59,6 +61,7 @@ def command():
     recog = speech_recognition.Recognizer()
 
     with speech_recognition.Microphone() as source:
+        chatBox.insert(END, "\n\n-> AssistAI:  Listening...")
         print('Listening...')
         recog.pause_threshold = 1
         audio = recog.listen(source, timeout=50, phrase_time_limit= 5)
@@ -66,6 +69,7 @@ def command():
     try:
         print("Voice Detected...")
         query = recog.recognize_google(audio, language= 'en-us')
+        print(f"You said: {query}")
 
     except Exception as error:
         return "input undetected"
@@ -74,17 +78,15 @@ def command():
 #this function handles the time of day and the associated greeting
 def timeGreeting():
     time = int(datetime.datetime.now().hour)
-    now = datetime.datetime.now()
-    time12 = now.strftime("%I:%M %p").lstrip("0")
 
     playsound("on_sound.mp3")
     if time >= 0 and time <= 12:
-        speak(f"Good morning! The time is {time12}")
+        speak(f"Good morning! ")
     elif time > 12 and time < 18:
-        speak(f"Good afternoon! The time is {time12}")
+        speak(f"Good afternoon! ")
     else:
-        speak(f"Good evening! The time is {time12}")
-    speak("I am ChatBot, your virtual assistant. Call on me for help.")
+        speak(f"Good evening! ")
+    speak("How can I help you? Type /commands for help.")
 
 #converts kelvin to fahrenheit
 def tempConversion(kelvin):
@@ -101,7 +103,7 @@ def getNews():
     articles = mainPage["articles"]
 
     head = []
-    day = ["first", "second", "third", "fourth", "five"]
+    day = ["first", "second", "third", "fourth", "fifth"]
     for r in articles:
         head.append(r["title"])
     for i in range (len(day)):
@@ -161,128 +163,205 @@ def translate():
     speakAudio = gTTS(text=translated, lang=lang, slow=False)
     #saves audio to mp3, plays audio, then deletes the mp3
     speakAudio.save("translated_text.mp3")
+    chatBox.insert(END, "\n\n" + "-> AssistAI:  " + translated)
     playsound("translated_text.mp3")
     os.remove("translated_text.mp3")
+
+#Responsible for executing commands when inputted into the text box
+def submitText():
+    query = "-> You:  " + entry_1.get() #getting query from entry_1 box in gui
+
+    chatBox.insert(END, "\n\n" + query)
+
+    userInput = entry_1.get().lower()
+        
+    if "notepad" in userInput:
+        filePath = "C:\\WINDOWS\\system32\\notepad.exe"
+        os.startfile(filePath)
+        speak("Opening notepad...")
+
+    elif "/gpt " in userInput:
+        question = userInput.replace("/gpt", "")
+        response = gpt_response(question)
+        speak(response)
+
+    elif "command prompt" in userInput:
+        speak("Opening command prompt")
+        os.system("start cmd")
+
+    elif "ip address" in userInput:
+        ip = get('https://api.ipify.org').text
+        speak(f"Your IP adress is {ip}")
+
+    elif "google" in userInput:
+        search = userInput.replace("google", "")
+        webbrowser.open(f"{search}")
+        speak("Searching" + search)
+
+    elif "youtube" in userInput:
+        searchVideo = userInput.replace("youtube", "")
+        kit.playonyt(searchVideo)
+        speak("Searching" + searchVideo)
+
+    elif "date" in userInput:
+        date = datetime.datetime.now()
+        speak(date.strftime("Today's date is %A the %d of %B %Y"))
+
+    elif "joke" in userInput:
+        joke = pyjokes.get_joke(language="en", category="neutral")
+        speak("Here's one, ")
+        speak(joke)
+
+    elif "news" in userInput:
+        speak("Getting the latest news...")
+        getNews()
+
+    elif "weather" in userInput:
+        if "in" in userInput:
+            userInput = userInput.replace("weather in", "")
+            city = userInput
+            getWeather(city)
+        else:
+            getWeather("Las Vegas")
+
+    elif "time" in userInput:
+        now = datetime.datetime.now()
+        time12 = now.strftime("%I:%M %p").lstrip("0")
+        speak("The current time is " + time12)
+
+    elif "commands" in userInput:
+        chatBox.insert(END, "\n\n-> AssistAI: COMMAND LIST\n- translate (AUDIO INPUT ONLY)\n- notepad\n- /gpt\n- command prompt\n- ip address\n- google\n- youtube\n- date\n- joke\n- news\n- weather\n- time\n- commands\n- turn off\n")
+
+    elif "turn off" in userInput:
+        speak("I'm glad I could help. Have a good rest of your day. Goodbye")
+        playsound("off_sound.mp3")
+        sys.exit()
+
+    else:
+        speak("That is not a valid input, please try again.")
 
 #responsible for executing various voice commands
 def executeTask():
 
-    response = ["I am here!", "Hello!", "Still here!", "What do you need?"]
-    randResponse = random.choice(response)
-    speak(randResponse)
+    mood = ["I am doing okay.", "I am a little tired.", "So so.", "I am doing great.", "I am happy to be here."]
 
-    while True:
-        helpRes = ["Anything else you need?", "Anything else?", "Do you need something else?",
-                   "Is there something else you need?"]
-        randRes = random.choice(helpRes)
-        mood = ["I am doing okay.", "I am a little tired.", "So so.", "I am doing great.", "I am happy to be here."]
-        query = command().lower()
+    audioInput = command()
+    textTranscript = "-> You:  " + audioInput #transcribes intitial audio input
+    chatBox.insert(END, "\n\n" + textTranscript) #displays transcription in chatbox gui
 
-        if "notepad" in query:
-            filePath = "C:\\WINDOWS\\system32\\notepad.exe"
-            os.startfile(filePath)
-            speak("Opened Notepad")
+    query = audioInput.lower()
 
-        elif "dynamic chat" in query: #this causes AssistAI to enter GPT chat mode, which allows user to ask chatGPT anything
-            speak("Starting Dynamic Chat...")
-            while True:
-                time.sleep(2)
-                speak("What would you like to ask?")
-                question = command().lower()
-                if "turn off" in question:
-                    playsound("off_sound.mp3")
-                    sys.exit()
-                elif question != "input undetected":
-                    response = gpt_response(question)
-                    speak(response)
+    if "notepad" in query:
+        chatBox.insert(END, "\n\n" + "-> AssistAI:  Opening notepad..")
+        filePath = "C:\\WINDOWS\\system32\\notepad.exe"
+        os.startfile(filePath)
+        speak("Opened Notepad")
 
-        elif "command prompt" in query:
-            speak("Opening command prompt")
-            os.system("start cmd")
+    elif "gpt" in query: #this causes AssistAI to enter GPT chat mode, which allows user to ask chatGPT anything
+        speak("Starting GPT...")
+        speak("What would you like to ask?")
+        question = command().lower()
+        gptTranscript = "-> You:  " + question
+        chatBox.insert(END, "\n" + gptTranscript)
+        response = gpt_response(question)
+        speak(response)
 
-        elif "ip address" in query:
-            ip = get('https://api.ipify.org').text
-            speak(f"Your IP adress is {ip}")
+    elif "command prompt" in query:
+        speak("Opening command prompt")
+        os.system("start cmd")
 
-        elif "wikipedia" in query:
-            speak("Searching Wikipedia...")
-            query = query.replace('wikipedia', '')
-            results = wikipedia.summary(query, sentences=2)
-            speak("According to Wikipedia...")
-            speak(results)
+    elif "ip address" in query:
+        ip = get('https://api.ipify.org').text
+        speak(f"Your IP address is {ip}")
 
-        elif "google" in query:
-            speak("What should I search on google?")
-            search = command().lower()
-            webbrowser.open(f"{search}")
-            speak("Searching" + search)
+    elif "google" in query:
+        speak("What should I search on google?")
+        search = command().lower()
+        webbrowser.open(f"{search}")
+        speak("Searching " + search)
 
-        elif "youtube" in query:
-            speak("What video should I play for you?")
-            search = command().lower()
-            kit.playonyt(search)
-            speak("Searching" + search)
+    elif "youtube" in query:
+        speak("What video should I play for you?")
+        search = command().lower()
+        kit.playonyt(search)
+        speak("Searching " + search)
 
-        elif "date" in query:
-            date = datetime.datetime.now()
-            speak(date.strftime("Today's date is %A the %d of %B %Y"))
+    elif "date" in query:
+        date = datetime.datetime.now()
+        speak(date.strftime("Today's date is %A the %d of %B %Y"))
 
-        elif "joke" in query:
-            joke = pyjokes.get_joke(language="en", category="neutral")
-            speak("Here's one, ")
-            speak(joke)
+    elif "joke" in query:
+        joke = pyjokes.get_joke(language="en", category="neutral")
+        speak("Here's one, ")
+        speak(joke)
 
-        elif "who are you" in query:
-            speak("I am an Artificial Intelligence assistant created by Cortland Deem")
+    elif "who are you" in query:
+        speak("I am an Artificial Intelligence assistant created by Cortland Deem")
 
-        elif "how are you" in query:
-            curMood = random.choice(mood)
-            speak(curMood)
+    elif "how are you" in query:
+        curMood = random.choice(mood)
+        speak(curMood)
 
-        elif "news" in query:
-            speak("Getting the latest news...")
-            getNews()
+    elif "news" in query:
+        speak("Getting the latest news...")
+        getNews()
 
-        elif "weather" in query:
-            if "in" in query:
-                query = query.replace("weather in", "")
-                city = query
-                getWeather(city)
-            else:
-                getWeather("Las Vegas")
+    elif "weather" in query:
+        if "in" in query:
+            query = query.replace("weather in", "")
+            city = query
+            getWeather(city)
+        else:
+            getWeather("Las Vegas")
 
-        elif "time" in query:
-            now = datetime.datetime.now()
-            time12 = now.strftime("%I:%M %p").lstrip("0")
-            speak("The current time is " + time12)
+    elif "time" in query:
+        now = datetime.datetime.now()
+        time12 = now.strftime("%I:%M %p").lstrip("0")
+        speak("The current time is " + time12)
 
-        elif "translate" in query:
-            speak("Say what you want translated")
-            translate()
+    elif "translate" in query:
+        speak("Say what you want translated")
+        translate()
 
-        elif "sleep" in query:
-            speak("Entering sleep mode. Call me again for help")
-            break
+    elif "turn off" in query:
+        speak("I'm glad I could help. Have a good rest of your day. Goodbye")
+        playsound("off_sound.mp3")
+        sys.exit()
 
-        elif "no thanks" in query:
-            speak("Understood.")
-            break
-
-        elif "turn off" in query:
-            speak("I'm glad I could help. Have a good rest of your day. Goodbye")
-            playsound("off_sound.mp3")
-            sys.exit()
-
-        time.sleep(2)
-        speak(randRes)
 
 if __name__ == "__main__":
+    # GUI window
+    gui = tk.Tk()
+    gui.title("AssistantAI")
+    gui.geometry("500x390")
+
+    # Main Frame
+    main_Frame = tk.Frame(gui, width=400, height = 100)
+    main_Frame.pack()
+
+    scrollbar=tk.Scrollbar(gui, orient= VERTICAL)
+    scrollbar.pack(side = RIGHT, fill = Y)
+
+    # Chat output
+    chatBox = tk.Text(main_Frame, width=53, height = 18, wrap=WORD, font = 'Helvetica 12', background="#FFF2F2", yscrollcommand = scrollbar.set)
+    chatBox.configure(state=NORMAL)
+    chatBox.insert
+    chatBox.pack() 
+
+    # User Text Input
+    entry_1 = tk.Entry(main_Frame, width = 37, font = 'Helvetica 12', borderwidth=0)
+    entry_1.pack(side = LEFT, padx = 10, pady = 13, ipady=5)
+
+    # Buttons
+    text_icon = PhotoImage(file = r"textSend.png")
+    mic_icon = PhotoImage(file = r"micSend.png")
+
+    button_1 = tk.Button(main_Frame, width = 50, height = 50, image=mic_icon, command=executeTask, borderwidth=0)
+    button_1.pack(side=RIGHT, padx = 12, pady=10)
+
+    button_2 = tk.Button(main_Frame, width = 50, height = 50, image = text_icon, command=submitText, borderwidth= 0)
+    button_2.pack(side=RIGHT, padx = 5, pady=10)
+   
     timeGreeting()
-    while True:
-        query = command().lower()
-        if "chatbot" in query:
-            executeTask()
-        elif "turn off" in query:
-            speak("I'm glad I could help. Have a good rest of your day. Goodbye")
-            playsound("off_sound.mp3")
-            sys.exit()
+    gui.resizable(width=False, height=False)
+    gui.mainloop()
