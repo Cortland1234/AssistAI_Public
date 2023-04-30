@@ -20,18 +20,18 @@ List of features:
 This should allow you to run the program!  
 
 # How to Use:  
-To activate the bot, simply say "Chatbot"  
+To activate the bot, type your command into the input box and press the send button OR press the microphone button for voice input. 
 
 Once activated, pick from one of the following commands:  
--"dynamic chat" engages the pretrained AI model for more advanced queries. ChatBot will then ask you what you want to ask it ( and you can ask it anyhthing you want).  
+-"/commands" gives a lsit of all commands available  
+
+-"gpt" engages the pretrained AI model for more advanced queries. ChatBot will then ask you what you want to ask it ( and you can ask it anyhthing you want).  
 
 -"translate" engages the translator, and the bot will then ask you what you want translated and into what language.  
 
 -"command promopt" opens cmd prompt  
 
 -"ip address" outputs your IP  
-
--"wikipedia {what you want to search}" searches wikipedia  
 
 -"google" saying this will prompt ChatBot to ask what to search for, and then it will search for whatever you say next 
 
@@ -50,9 +50,5 @@ Once activated, pick from one of the following commands:
 -"weather" just saying this will cause ChatBot to output the default city's weather (Las Vegas). For specfic areas, say "weather in {CITY NAME}" 
 
 -"time" outputs the time  
-
--"sleep" causes ChatBot to sleep. To activate, say its name again
-
--"no thanks" in response to it asking if you need anything, causes ChatBot to enter sleep mode
 
 -"turn off" closes ChatBot
