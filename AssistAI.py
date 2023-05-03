@@ -333,7 +333,7 @@ if __name__ == "__main__":
     # GUI window
     gui = tk.Tk()
     gui.title("AssistantAI")
-    gui.geometry("500x390")
+    gui.geometry("600x500")
 
     # Main Frame
     main_Frame = tk.Frame(gui, width=400, height = 100)
