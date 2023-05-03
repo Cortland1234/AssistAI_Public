@@ -16,7 +16,7 @@ List of features:
 # Installation  
 -MUST HAVE PYTHON INSTALLED ON YOUR PC!!!!  
 -To install required plugins, navigate to the directory on a command line (ex. "cd {FILE PATH}) and type "pip install -r requirements.txt"    
--Next, type "python AssistAI.py" into the command line OR run the AssistAI.exe file.    
+-Next, run the AssistAI.exe file.    
 
 This should allow you to run the program!  
 
