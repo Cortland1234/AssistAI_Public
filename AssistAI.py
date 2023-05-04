@@ -333,7 +333,7 @@ if __name__ == "__main__":
     # GUI window
     gui = tk.Tk()
     gui.title("AssistantAI")
-    gui.geometry("600x500")
+    gui.geometry("500x400")
 
     # Main Frame
     main_Frame = tk.Frame(gui, width=400, height = 100)
@@ -363,5 +363,5 @@ if __name__ == "__main__":
     button_2.pack(side=RIGHT, padx = 5, pady=10)
    
     timeGreeting()
-    gui.resizable(width=False, height=False)
+    gui.resizable(width=True, height=True)
     gui.mainloop()
